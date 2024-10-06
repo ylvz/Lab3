@@ -53,6 +53,31 @@ Person* PersonReg::SökNamn(const std::string& namn) const {
     return nullptr; // Om personen inte hittas
 }
 
+//Uppgift 2
+Person* PersonReg::SökFritt(const std::string& sökEfter, Person* startOnNext) const {
+    int startIndex = 0;
+
+    // Om startOnNext inte är nullptr, börja söka från nästa person
+    if (startOnNext != nullptr) {
+        for (int i = 0; i < antalPersoner; ++i) {
+            if (&personer[i] == startOnNext) {
+                startIndex = i + 1; // Börja söka från nästa person efter den senaste träffen
+                break;
+            }
+        }
+    }
+
+    // Sök efter nästa träff från startIndex
+    for (int i = startIndex; i < antalPersoner; ++i) {
+        // Om söktermen finns i namn eller adress
+        if (personer[i].namn.find(sökEfter) != std::string::npos ||
+            personer[i].adress.find(sökEfter) != std::string::npos) {
+            return &personer[i]; // Returnera pekare till personen
+        }
+    }
+
+    return nullptr; // Om ingen ytterligare träff hittades
+}
 
 
 

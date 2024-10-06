@@ -15,6 +15,9 @@ public:
     Person* SökNamn(const std::string& namn) const;
     void Print() const;
     void Töm();
+    //Uppgift 2
+    Person* SökFritt(const std::string& sökEfter, Person* startOnNext) const;
+
 
 private:
     Person* personer;

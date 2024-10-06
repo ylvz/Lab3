@@ -14,4 +14,7 @@ public:
     std::string adress;
 };
 
+
+
+
 #endif // PERSON_H
