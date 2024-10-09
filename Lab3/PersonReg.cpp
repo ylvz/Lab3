@@ -15,6 +15,10 @@ bool PersonReg::LäggTill(const Person* const person) {
         antalPersoner++;
         return true;
     }
+    LäggTillTest("Olle", "0703955123");
+    LäggTillTest("Kurt", "12345");
+    LäggTillTest("Ruben", "67890");
+    LäggTillTest("Sven", "54321");
     return false;
 }
 
