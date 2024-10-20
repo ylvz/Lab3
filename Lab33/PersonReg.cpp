@@ -1,67 +1,68 @@
 #include "PersonReg.h"
+#include "Person.h"
+#include <fstream>
 #include <iostream>
 
 PersonReg::PersonReg(int maxStorlek) : maxStorlek(maxStorlek), antal(0) {
-    personer = new Person[maxStorlek]; // Allokera minne för personer
+    personer = new Person[maxStorlek];
 }
 
 PersonReg::~PersonReg() {
-    delete[] personer; // Frigör minnet
+    Töm();
+    delete[] personer;
 }
 
-bool PersonReg::LäggTill(const Person* const p) {
+bool PersonReg::LäggTill(const Person& person) {
     if (antal < maxStorlek) {
-        personer[antal] = *p; // Kopiera personen till arrayen
-        antal++;
+        personer[antal++] = person;
         return true;
     }
-    return false; // Fullt register
+    return false;
 }
-
 
 bool PersonReg::LäggTillTest(const std::string& namn, const std::string& adress) {
-    cout << "Lägger till: " << namn << ", " << adress << endl; // Debuggingutskrift
-    Person* p = new Person(namn, adress); // Allokera en ny Person på heapen
-    bool result = LäggTill(p); // Lägg till personen i registret
-    if (!result) {
-        delete p; // Frigör om det inte gick att lägga till
-    }
-    return result;
+    Person newPerson(namn, adress);
+    return LäggTill(newPerson);
 }
-
-
 
 void PersonReg::TaBortEntry(Person* ptr) {
     for (int i = 0; i < antal; ++i) {
-        if (&personer[i] == ptr) {
+        if (&personer[i] == ptr) { // Kontrollera om vi har hittat den post vi söker
+            // Flytta alla efterföljande poster ett steg till vänster
             for (int j = i; j < antal - 1; ++j) {
-                personer[j] = personer[j + 1]; // Flytta ner personer
+                personer[j] = personer[j + 1];
             }
-            antal--;
-            return; // Avsluta metoden efter borttagning
+            antal--; // Minska antalet personer
+            return; // Avsluta funktionen när posten har tagits bort
         }
     }
 }
 
 
-Person* PersonReg::SökNamn(const string& name) const {
+Person* PersonReg::SökNamn(const std::string& namn) const {
     for (int i = 0; i < antal; ++i) {
-        cout << "Jämför med: " << personer[i].namn << endl; // Debuggingutskrift
-        if (personer[i].namn == name) {
-            return &personer[i]; // Returnera pekare till personen
+        if (personer[i].getName() == namn) {
+            return &personer[i];
         }
     }
-    return nullptr; // Ej hittad
+    return nullptr;
 }
 
+void PersonReg::Print() const
+{
+    for (Person* ptr = personer; ptr != personer + antal; ptr++)
+    {
+        ptr->Print();
 
-
-void PersonReg::Print() const {
-    for (int i = 0; i < antal; ++i) {
-        personer[i].Print(); // Anropa Print för varje person
     }
 }
+
 
 void PersonReg::Töm() {
-    antal = 0; // Sätt antal till 0
+    // Om det finns ett specifikt minneshanteringsbehov, frigör resurser här.
+    // I det här fallet behöver vi inte frigöra något särskilt minne eftersom vi använder en array av objekt.
+
+    antal = 0;  // Återställ antalet till 0
 }
+
+

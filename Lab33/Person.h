@@ -1,19 +1,18 @@
-#ifndef PERSON_H
-#define PERSON_H
-
-#include <iostream>
+#pragma once
 #include <string>
 
-using namespace std;
-
 class Person {
+private:
+    std::string name;
+    std::string adress;
+
 public:
-    string namn;
-    string adress;
+    Person();
+    Person(const std::string& name, const std::string& adress);
 
-    Person(); // Standardkonstruktor
-    Person(const string& namn, const string& adress); // Konstruktor med parametrar
-    void Print() const; // Funktion för att skriva ut information om personen
+    std::string getName() const;
+    std::string getAdress() const;
+    void Print() const;
+
+    ~Person();
 };
-
-#endif // PERSON_H

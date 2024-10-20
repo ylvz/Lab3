@@ -1,23 +1,21 @@
-#ifndef PERSONREG_H
-#define PERSONREG_H
-
+#pragma once
 #include "Person.h"
+#include <string>
 
 class PersonReg {
 private:
-    Person* personer; // Pekare till arrayen med personer
-    int maxStorlek; // Maximal storlek på registret
-    int antal; // Antal personer i registret
+    Person* personer;
+    int maxStorlek;
+    int antal;
 
 public:
-    PersonReg(int maxStorlek); // Konstruktor
-    ~PersonReg(); // Destruktor
-    bool LäggTill(const Person* const p);
-    bool LäggTillTest(const std::string& namn, const std::string& adress); // Lägg till person med namn och adress
-    void TaBortEntry(Person* ptr); // Ta bort person
-    Person* SökNamn(const std::string& namn) const; // Sök efter person
-    void Print() const; // Skriv ut alla personer
-    void Töm(); // Töm registret
-};
+    PersonReg(int maxStorlek);
+    ~PersonReg();
 
-#endif // PERSONREG_H
+    bool LäggTill(const Person& person);
+    bool LäggTillTest(const std::string& namn, const std::string& adress);
+    void TaBortEntry(Person* ptr);
+    Person* SökNamn(const std::string& namn) const;
+    void Print() const;
+    void Töm();
+};

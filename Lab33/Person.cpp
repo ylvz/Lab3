@@ -1,9 +1,23 @@
 #include "Person.h"
+#include <iostream>
+#include <string>
 
-Person::Person() : namn(""), adress("") {} // Implementera standardkonstruktor
+std::string name, adress;
 
-Person::Person(const string& namn, const string& adress) : namn(namn), adress(adress) {} // Konstruktor med parametrar
+Person::Person() : name(""), adress("") {}
+
+Person::Person(const std::string& name, const std::string& adress) : name(name), adress(adress) {}
+
+std::string Person::getName() const {
+    return name;
+}
+
+std::string Person::getAdress() const {
+    return adress;
+}
 
 void Person::Print() const {
-    cout << "Namn: " << namn << ", Adress: " << adress << endl; // Skriver ut namnet och adressen
+    std::cout << "Namn: " << name << " Adress: " << adress << std::endl;
 }
+
+Person::~Person() {}
