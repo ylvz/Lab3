@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Person.h"
 #include "PersonReg.h"
+#include "PersonMedTel.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -46,6 +47,24 @@ void Init(PersonReg& tr) {
     DN((tr.Print()));
 }
 
+void InitMedTel(PersonReg& tr) {
+    tr.Töm();
+
+    Person* person = new PersonMedTel("Astro", "Lärkvägen 5", "666");
+    person->Print();
+    //tr.LäggTill(person);
+    tr.LäggTillTest("Olle", "123");
+    tr.LäggTillTest("Kurtåke", "12345");
+    tr.LäggTillTest("Olle", "456");
+    tr.LäggTillTest("Sven", "456");
+    tr.LäggTillTest("Kurt", "95815");
+    //PN(std::endl);
+    //PN(("fullt reg "));
+    PN((std::endl));
+    DN((tr.Print()));
+    delete person;
+}
+
 #include <fstream>
 bool ReadReg(PersonReg& reg, string fileName) {
     string line;
@@ -60,8 +79,9 @@ bool ReadReg(PersonReg& reg, string fileName) {
             string name(line);
             string adress;
             getline(myfile, adress);
-            Person p = Person(name, adress);
-            reg.LäggTill(p);  // Add the pointer to the register
+            Person* p = new Person(name, adress);
+            reg.LäggTill(p);  // Skicka pekaren till läggTill
+
         }
         myfile.close();
         return true;
@@ -88,7 +108,7 @@ void Test2() {
 
     tep = reg.SökNamn("olle");
     if (tep) {
-        cout << tep->getName() << endl;
+        cout << tep->Namn() << endl;
         reg.TaBortEntry(tep);
     }
     else
@@ -96,7 +116,7 @@ void Test2() {
 
     tep = reg.SökNamn("olle");
     if (tep) {
-        cout << tep->getName() << endl;
+        cout << tep->Namn() << endl;
         reg.TaBortEntry(tep);
     }
     else
@@ -104,7 +124,7 @@ void Test2() {
 
     tep = reg.SökNamn("olle");
     if (tep) {
-        cout << tep->getName() << endl;
+        cout << tep->Namn() << endl;
         reg.TaBortEntry(tep);
     }
     else
@@ -112,7 +132,7 @@ void Test2() {
 
     tep = reg.SökNamn("olle");
     if (tep) {
-        cout << tep->getName() << endl;
+        cout << tep->Namn() << endl;
         reg.TaBortEntry(tep);
     }
     else
@@ -120,7 +140,7 @@ void Test2() {
 
     tep = reg.SökNamn("olle");
     if (tep) {
-        cout << tep->getAdress() << endl;
+        cout << tep->Adress() << endl;
         reg.TaBortEntry(tep);
     }
     else
@@ -131,46 +151,51 @@ void Test2() {
     reg.Print();
 }
 
-//void Test3() {
-//    PersonReg reg(10);
-//
-//    Init(reg);
-//    reg.Print();
-//    string namn, adress;
-//    Person te, * tep;
-//
-//    tep = nullptr;
-//    while (tep = reg.SökFritt("olle", tep)) {
-//        tep->Print();
-//        //        cout << tep->adress << endl;
-//    }
-//    cout << "not found \n";
-//
-//    cout << "blandade sökningar \n";
-//    Person* ptr1 = nullptr, * ptr2 = nullptr;
-//    bool first = true;
-//    while (first || ptr1 || ptr2) {
-//        if (ptr1 || first) {
-//            ptr1 = reg.SökFritt("olle", ptr1);
-//            if (ptr1)
-//                ptr1->Print();
-//        }
-//        if (ptr2 || first) {
-//            ptr2 = reg.SökFritt("581", ptr2);
-//            if (ptr2)
-//                ptr2->Print();
-//        }
-//        first = false;
-//    }
-//}
+
+
+void Test3() {
+    PersonReg reg(6);
+
+    Init(reg);
+    //reg.Print();
+    cout << "\n";
+    string namn, adress;
+    Person te, * tep;
+
+    tep = nullptr;
+    while (tep = reg.SökFritt("olle", tep)) {
+        tep->Print();
+        //        cout << tep->adress << endl;
+    }
+    cout << "not found \n";
+    cout << "\n";
+    cout << "blandade sökningar \n";
+
+    Person* ptr1 = nullptr, * ptr2 = nullptr;
+    bool first = true;
+    while (first || ptr1 || ptr2) {
+        if (ptr1 || first) {
+            ptr1 = reg.SökFritt("olle", ptr1);
+            if (ptr1)
+                ptr1->Print();
+        }
+        if (ptr2 || first) {
+            ptr2 = reg.SökFritt("581", ptr2);
+            if (ptr2)
+                ptr2->Print();
+        }
+        first = false;
+    }
+}
 
 int main() {
     _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     locale::global(locale("swedish"));
     PersonReg pr(10);
-    Init(pr);
+    //Init(pr);
     //Test1();
-    Test2();
+    //Test2();
     //Test3();
+    InitMedTel(pr);
     cin.get();
 }

@@ -2,6 +2,7 @@
 #include "Person.h"
 #include <fstream>
 #include <iostream>
+#include "PersonMedTel.h"
 
 PersonReg::PersonReg(int maxStorlek) : maxStorlek(maxStorlek), antal(0) {
     personer = new Person[maxStorlek];
@@ -12,18 +13,21 @@ PersonReg::~PersonReg() {
     delete[] personer;
 }
 
-bool PersonReg::LäggTill(const Person& person) {
+bool PersonReg::LäggTill(Person* person) {
     if (antal < maxStorlek) {
-        personer[antal++] = person;
+        personer[antal++] = *person; // Kopiera objektet till arrayen
         return true;
     }
     return false;
 }
 
+
+
 bool PersonReg::LäggTillTest(const std::string& namn, const std::string& adress) {
     Person newPerson(namn, adress);
-    return LäggTill(newPerson);
+    return LäggTill(&newPerson); // Lägger till en Person
 }
+
 
 void PersonReg::TaBortEntry(Person* ptr) {
     for (int i = 0; i < antal; ++i) {
@@ -38,10 +42,22 @@ void PersonReg::TaBortEntry(Person* ptr) {
     }
 }
 
+Person* PersonReg::SökFritt(const std::string& sökEfter, Person* startOnNext) const {
+    // Logik för att söka fritt...
+    Person* start = (startOnNext == nullptr) ? personer : startOnNext + 1;
+    for (Person* ptr = start; ptr < personer + antal; ptr++) {
+        // Om namn eller adress finns returnera personen
+        if (ptr->Namn().find(sökEfter) != std::string::npos || ptr->Adress().find(sökEfter) != std::string::npos) {
+            return ptr;
+        }
+    }
+    // Om ingen hittad returnera nullptr
+    return nullptr;
+}
 
 Person* PersonReg::SökNamn(const std::string& namn) const {
     for (int i = 0; i < antal; ++i) {
-        if (personer[i].getName() == namn) {
+        if (personer[i].Namn() == namn) {
             return &personer[i];
         }
     }

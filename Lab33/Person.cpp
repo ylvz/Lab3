@@ -8,11 +8,11 @@ Person::Person() : name(""), adress("") {}
 
 Person::Person(const std::string& name, const std::string& adress) : name(name), adress(adress) {}
 
-std::string Person::getName() const {
+std::string Person::Namn() const {
     return name;
 }
 
-std::string Person::getAdress() const {
+std::string Person::Adress() const {
     return adress;
 }
 
